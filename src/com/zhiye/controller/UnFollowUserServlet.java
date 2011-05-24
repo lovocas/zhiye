@@ -14,31 +14,30 @@ import com.zhiye.dao.UserDAO;
 import com.zhiye.model.User;
 import com.zhiye.util.DB;
 
-/**
- * @author TeaInCoffee
- * 对用户点击FOLLOW别人的按钮的时候接收AJAX请求并且做出响应
- * lastUpdatedAt:20:50 2011-05-24
- */
-public class FollowUserServlet extends HttpServlet {
+public class UnFollowUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
-        
-        
+
         ObjectId viewedUserId = new ObjectId(req.getParameter("viewedid"));
-       
+
         UserDAO dao = new UserDAO(DB.morphia, DB.mongo);
         User viewedUser = dao.get(viewedUserId);
-        
-        
+
         User user = (User)(req.getSession().getAttribute("user"));
-        
         if(null == user) {
             out.print("----fail: not a logined user---");
             return;
         }
-        user.followPerson(viewedUser);
+        System.out.println(user.getName() + "取消关注" + viewedUser.getName());
+
+        user.unFollowPerson(viewedUser);
+        
+        user = dao.get(user.getId());
+        System.out.println("====返回成功 长度变为 " + user.getFollowingIds().size() );
+        req.getSession().setAttribute("user", user);
         out.print("OK");
     }
 }
+

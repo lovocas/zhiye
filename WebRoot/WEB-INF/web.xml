@@ -37,6 +37,16 @@
   <servlet-name>ViewUserServlet</servlet-name>
   <servlet-class>com.zhiye.controller.ViewUserServlet</servlet-class>
  </servlet>
+  <servlet>
+    <servlet-name>UnFollowUserServlet</servlet-name>
+    <servlet-class>com.zhiye.controller.UnFollowUserServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ViewUserFollowersServlet</servlet-name>
+    <servlet-class>com.zhiye.controller.ViewUserFollowersServlet</servlet-class>
+  </servlet>
+
+
  
  
  
@@ -76,6 +86,14 @@
   <servlet-name>ViewUserServlet</servlet-name>
   <url-pattern>/viewuser</url-pattern>
  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UnFollowUserServlet</servlet-name>
+    <url-pattern>/unfollowuser</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewUserFollowersServlet</servlet-name>
+    <url-pattern>/viewuserfollowers</url-pattern>
+  </servlet-mapping>
  <welcome-file-list>
   <welcome-file>index.jsp</welcome-file>
  </welcome-file-list>

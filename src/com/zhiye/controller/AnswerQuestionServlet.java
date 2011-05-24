@@ -44,6 +44,7 @@ public class AnswerQuestionServlet extends HttpServlet {
         if(null != answerBody && answerBody.length() > 5) {
             user.answer(question, answerBody);
             writer.print("OK");
+            return;
         }
         writer.print("FAIL");
         

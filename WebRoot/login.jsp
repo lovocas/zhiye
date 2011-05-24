@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     Password:<input type="password" name="password"><br>
     <input type="submit" value="登录">
   </form>
-  你个二货没有<a href="reg.jsp">注册</a>?
+  你没有<a href="reg.jsp">注册</a>?
   
   
   </body>

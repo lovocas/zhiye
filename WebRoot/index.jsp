@@ -25,14 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    if(null != u) {
    %>
    欢迎你<%= u.getName() %><br>
-   <a href="createAsk.jsp">我有蛋疼的问题要问</a><br>
+   <a href="createAsk.jsp">我有问题要问</a><br>
    <a href="viewallusers"><font color="red">查看</font></a>哪些人也在使用知也<br>
    
    <a href="viewallquestions">其他所有问题</a>
    <%}
    else {
    %>
-   你个2货没有<a href="login.jsp">登录</a>！！！！！！！！！！！！
+   你木有<a href="login.jsp">登录</a>，有木有？！有木有！！！！木有！！！！！！！！
    <%} %>
   </body>
 </html>

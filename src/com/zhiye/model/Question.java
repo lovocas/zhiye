@@ -42,11 +42,11 @@ public class Question {
     //have all his answers in hand, 
     //avoid to do more query via retrieve all answers and get test each qustionid;
     //自动得到属于它的所有answer,answer里面本身并不会有更多的reference，所以不会load很大一张图
-    
     //Followers
     private List<ObjectId> followerIds;
     
-    
+    //这个Refercence自动找出所有的与之对应的答案，
+    //因为常常查看某个问题的页面，并且罗列出所有回答
     @Reference
     private List<Answer> answers = new ArrayList<Answer>();
     
@@ -145,12 +145,8 @@ public class Question {
     public void save() {
         QuestionDAO dao = new QuestionDAO(DB.morphia, DB.mongo);
         dao.save(this);
-        
     }
-    
     //setter and getter
 
-    
-    
     //TODO:Follower
 }

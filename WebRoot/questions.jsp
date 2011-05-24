@@ -13,6 +13,11 @@ List<Question> questions = (List<Question>)request.getAttribute("questions");
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+  <style type="text/css">
+  #xx {
+  background-color: grey;
+  }
+  </style>
     <base href="<%=basePath%>">
     
     <title>My JSP 'questions.jsp' starting page</title>
@@ -32,8 +37,9 @@ List<Question> questions = (List<Question>)request.getAttribute("questions");
   <% 
   for(Question q : questions ) {
       %>
-      <h1><a href="viewquestion?qid=<%=q.getId() %>"><%=q.getTitle() %></a></h1>
+      <h5><a href="viewquestion?qid=<%=q.getId() %>"><%=q.getTitle() %></a></h5>
       <p><%=q.getBody() %></p>
+      <dir id="xx">&nbsp;</dir>
       <%} %>
   </body>
 </html>

@@ -19,8 +19,29 @@
         <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+  <style type="text/css">
+  
+    #infobar{
+        background-color:#E0E0E0;
+    }
+    
+    
+  </style>
      <script type="text/javascript">
+    function validateAns(str) {
+    	if(str.length < 3) {
+    		alert("请输入经过你大脑后的信息 :-)");
+    		return false;
+    	}
+    	return true;
+    }
     function submitToServer() {
+    	
+    	//先验证
+    	if(!validateAns(document.getElementById("ans").value)) {
+    		return;
+    	}
+    	
         var url = "answerquestion";
         if (window.XMLHttpRequest) {
             req = new XMLHttpRequest();
@@ -40,7 +61,18 @@
         }
     }
     function comeback() {
-        
+        if (req.readyState == 4) {
+            if (req.status == 200) {
+                var respText = req.responseText;
+                //alert(respText);
+                if ("OK" == respText) {
+                    document.getElementById("ans").value = "";
+                }
+                else {
+                	alert("服务端不想接收你的信息");
+                }
+            }
+        }
     }
 
 </script>
@@ -57,6 +89,10 @@
         <%
             } 
         %>
+        <div id="infobar">
+        <font size="3" color="green"><a href="viewuser?userid=<%=question.getAuthorId() %>" ><%=question.getAuthorName() %></a></font>在
+        <%=question.getLastModifiedAt().toLocaleString() %>问出此问题
+        </div>
         <br>—————————————————————————————————————<br>
         <%
         List<Answer> anss = question.getAnswers();
@@ -64,7 +100,9 @@
             
         %>
         <%=ans.getBody() %><br> 
+        <div id="infobar">
         <font size="3" color="green"><a href="viewuser?userid=<%=ans.getAuthorId() %>" ><%=ans.getAuthorName() %></a></font>发表于<%=ans.getUpdateAt().toLocaleString() %>
+        </div>
         <br>---------------------------------------------------------------------------<br>
         <%} 
         if(null == u) {

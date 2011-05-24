@@ -30,7 +30,6 @@ public class Answer {
     // 投票机制
     private int voteCount;
     
-    
     public ObjectId getId() {
         return id;
     }
