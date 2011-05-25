@@ -14,19 +14,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="expires" content="0">
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="This is my page">
-		<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+	<link rel="stylesheet" type="text/css" href="header.css">
 	</head>
 
 	<body>
+  
+  
+    <jsp:include page="headerbar.jsp"></jsp:include><br>
 		<form action="submitquestion" method="post">
-			问题：
-			<input type="text" name="title">
+            <table>
+                <tr>
+                <td>问题：</td>
+                <td><input type="text" name="title"></td>
+                </tr>
+                <tr>
+                <td>问题补充：</td>
+                <td><textarea rows="8" cols="30" name="content"></textarea></td>
+                </tr>
+            </table>
 			<br>
-			问题补充：
-			<textarea rows="8" cols="30" name="content"></textarea>
-			<input type="submit" />
+			<input type="submit" value="提交" />
 		</form>
 
 

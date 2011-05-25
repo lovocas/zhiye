@@ -1,0 +1,57 @@
+/* Reset */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,table,tbody,tr,th,td,input{margin:0;padding:0}
+body {font-size:12px;font-family:"Microsoft Yahei",Tahoma,Arial,Helvetica,STHeiti;_font-family:Tahoma,Arial,Helvetica,STHeiti;cursor:default;}
+html.hasFontSmoothing-false body{font-family:Tahoma,Arial,Helvetica,STHeiti;}
+a img, :link img, :visited img{border:0}
+table{border-collapse:collapse}
+ul{list-style:none}
+q:before,q:after,blockquote:before,blockquote:after{content:""}
+
+/* Global */
+
+/* show scrollbar by default */
+html{overflow-y:scroll;}
+/* clearFix*/
+.clearfix:after, #content:after{content:"\0020";display:block;height:0;clear:both;visibility:hidden;}
+#content:after{height:auto;height:0\9;}
+.clearfix, #content{display:inline-block;}
+.clearfix, #content{display:block;}
+.clear{clear:both;height:0;overflow:hidden;}
+
+/* hidden */
+.hide, .dlog-dd-title{display:none;}
+
+/* hn */
+h1{font-size:16px;}
+h2, h3{font-size:14px;}
+h4, h5, h6{font-size:12px;}
+
+/* link */
+a, a:link, a:visited{text-decoration:none;color:#307DCA;cursor:pointer;}
+
+body{background:#162e41 url("bg.png") repeat scroll 0 0;_background:#162e41;height:100%;font:14px/1.5 'Droid Serif', Georgia, Times, STHeiti;}
+/*#wrap{width:619px;margin:0 auto;padding:50px 0 100px;position:relative;}*/
+#wrap{width:619px;margin:0 auto;padding:10px 0 100px;position:relative;}
+#wrap .glow{width:1020px;height:754px;background:url("about-glow.png") no-repeat scroll 0 0;_display:none;position:absolute;left:-200px;top:0;z-index:-1;}
+
+#posts .post{margin-bottom:2px;word-break:break-all;word-wrap:break-word;}
+#posts .post .post-top{background:url("post-top-bg.png") no-repeat scroll 0 0;_background-image:url("ie6post-top-bg.png");height:74px;position:relative;}
+#posts .post-top .post-time{position:absolute;top:50px;left:100px;color:#999;font-size:12px;}
+#posts .post .post-content{background:url("post-content-bg.png") repeat-y scroll 0 0;_background-image:url("post-content-bg.png");padding:16px 59px 40px;overflow:hidden;}
+#posts .post-content .post-title{font-size:22px;font-weight:bold;line-height:1.4em;}
+#posts .post-content .post-title a, #posts .post-content .post-title a:link, #posts .post-content .post-title a:visited{color:#000;}
+#posts .post-content .post-title a:active, #posts .post-content .post-title a:hover{text-decoration:underline;}
+#posts .post-content p{line-height:2em;}
+#posts .post .post-bottom{height:3px;background:url("post-bottom-bg.png") no-repeat scroll 0 0;_background-image:url("post-bottom-bg.png");}
+#posts .post .post-info{clear:both;padding-top:30px;font-size:12px;}
+#posts .post-info a{color:#999;margin-right:10px;*float:left;}
+#posts .post-info a:active,#posts .post-info a:hover{color:#333;}
+#posts .post-info .post-tags{float:right;line-height:16px;width:60%;overflow:hidden;word-wrap:break-word;}
+#posts .post-tags li{float:right;}
+#posts .repost-content-from{padding-bottom:10px;}
+#posts .repost-content-from a{color:#000;text-decoration:underline;}
+#posts .post-repost .repost-quote{border-left:4px solid #c2c1c1;margin-left:10px;padding:0 0 5px 10px;}
+
+#posts .post.post-repost .post-top{background-image:url("post-repost-top-bg.png");_background-image:url("post-repost-top-bg.png");height:76px;}
+#posts .text-content p{margin:1.2em 0;}
+#posts .text-content ul{list-style:disc inside none;}

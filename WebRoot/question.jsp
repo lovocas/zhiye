@@ -13,16 +13,16 @@
 <html>
     <head>
         <base href="<%=basePath%>">
-
         <title>My JSP 'asks.jsp' starting page</title>
 
         <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+  <link rel="stylesheet" type="text/css" href="header.css">
   <style type="text/css">
   
     #infobar{
-        background-color:#E0E0E0;
+        background-color:#8E8E8E;
     }
     
     
@@ -80,11 +80,12 @@
     </head>
 
     <body>
+     <jsp:include page="headerbar.jsp"></jsp:include><br>
         <%
             
             if (null != question) {
         %>
-        <h1><%=question.getTitle()%></h1><%=question.getId()%><br>
+        <h1><%=question.getTitle()%></h1><br>
         <p><%=question.getBody()%></p>
         <%
             } 

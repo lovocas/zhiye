@@ -38,7 +38,7 @@
 			<input type="submit" value="提交">
 		</form>
     
-    <font color="#ff0000">每项必须认真填，不填木有霄寂寂</font>
+    <font color="#ff0000">请认真填写每一项</font>
 
 
 	</body>

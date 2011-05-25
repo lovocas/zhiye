@@ -8,16 +8,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%
 @SuppressWarnings("unchecked")
 List<Question> questions = (List<Question>)request.getAttribute("questions");
-
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-  <style type="text/css">
-  #xx {
-  background-color: grey;
-  }
-  </style>
+    <link rel="stylesheet" href="questioncss/style.css" />
+     <link rel="stylesheet" type="text/css" href="header.css">
+        
     <base href="<%=basePath%>">
     
     <title>My JSP 'questions.jsp' starting page</title>
@@ -34,12 +31,45 @@ List<Question> questions = (List<Question>)request.getAttribute("questions");
   </head>
   
   <body>
-  <% 
+ <jsp:include page="headerbar.jsp"></jsp:include><br>
+       <div id="dd-profile">
+        <div id="wrap">
+            <div class="glow"></div>
+            <div id="posts">
+ <% 
   for(Question q : questions ) {
       %>
-      <h5><a href="viewquestion?qid=<%=q.getId() %>"><%=q.getTitle() %></a></h5>
-      <p><%=q.getBody() %></p>
-      <dir id="xx">&nbsp;</dir>
-      <%} %>
+                <div class="post post-text" id="post-273229a0-58a2-11e0-8a27-9e1aca9c0121">
+                    <div class="post-top">
+
+                        <span class="post-time"><%=q.getCreateAt() %></span>
+                    </div>
+                    
+                    <div class="post-content clearfix">
+                            <h4 class="post-title"><a href="viewquestion?qid=<%=q.getId() %>"><%=q.getTitle() %></a></h4>
+                            <div class="text-content">
+                                <p> <%=q.getBody() %></p>
+                            </div>
+
+                        
+
+                        <div class="post-info clearfix">
+                            
+                            <a href="viewquestion?qid=<%=q.getId() %>">看看去</a>
+                            <a href="viewquestion?qid=<%=q.getId() %>">去看看</a>
+
+                        </div><!-- END .post-info -->
+                    </div><!-- END .post-content -->
+                    <div class="post-bottom"></div>
+                </div><!-- END .post -->
+<%} %>
+            </div><!-- END #posts -->
+
+
+
+        </div><!-- END #wrap -->
+
+    </div><!-- END #dd-profile -->
+      
   </body>
 </html>

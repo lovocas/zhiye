@@ -180,6 +180,7 @@ public class User {
         question.setBody(content);
         question.setAuthorId(this.getId());
         question.setLastModifiedAt(new Date());
+        question.setCreateAt(new Date());
         question.setAuthorId(this.id);
         question.setAuthorName(this.name);
         this.askCount ++;

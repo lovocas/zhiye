@@ -15,6 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
     <head>
+    
         <base href="<%=basePath%>">
 
         <title><%=viewedUser.getName() %> 知也</title>
@@ -28,7 +29,8 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     --->
     <style type="text/css">
-    
+       
+        
     a.green_button {
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
@@ -48,6 +50,7 @@
     text-align: center;
     text-decoration: none;
     text-shadow: 0 1px #D4ED95;
+    cursor: hand;
 }
 a.flat_button {
     background: none repeat scroll 0 0 #DDDDDD;
@@ -59,8 +62,10 @@ a.flat_button {
     padding: 2px 10px 1px;
     text-align: center;
     text-decoration: none;
+    cursor: hand;
 }
 </style>
+<link rel="stylesheet" type="text/css" href="header.css">
     <script type="text/javascript">
     var req = null;
     function unfollow(viewed, user) {
@@ -108,13 +113,14 @@ a.flat_button {
     </head>
 
     <body>
-
-        我[<%=user.getName()%>]正在浏览
-        <h6><%=viewedUser.getName()%></h6>，<%=viewedUser.getTagline()%>
+        <jsp:include page="headerbar.jsp"></jsp:include><br>
+        <p>我[<%=user.getName()%>]正在浏览<br></p>
+        <font size="6"><%=viewedUser.getName()%></font>-<%=viewedUser.getTagline()%>
         <br>
         简介：
         <br>
         <p><%=viewedUser.getBio()%>
+        <br>
         <%if(user.equals(viewedUser)){ %>
          <font color="blue">这就是你自己</font>
             <%
