@@ -14,13 +14,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="expires" content="0">
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="This is my page">
-	<link rel="stylesheet" type="text/css" href="header.css">
+	   <link rel="stylesheet" type="text/css" href="css/zhiye.css">
 	</head>
 
 	<body>
   
-  
-    <jsp:include page="headerbar.jsp"></jsp:include><br>
+    <jsp:include page="headerbarv2.jsp"></jsp:include><br>
 		<form action="submitquestion" method="post">
             <table>
                 <tr>

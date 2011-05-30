@@ -23,7 +23,7 @@ import com.zhiye.util.DB;
  * 3 TODO:relation to followers
  */
 @Entity(value="questions")
-public class Question {
+public class Question implements Idable {
     @Id private ObjectId id;
     
     //BASIC INFORMATION
@@ -33,21 +33,28 @@ public class Question {
     //if need more information use this fKey to User collection
     private String authorName;
     private ObjectId authorId; //belongs to user
-    private Date createAt;
+
+    private Date createdAt;
     
     //最近修改这个问题的人
     private String lastModUserName;
     private ObjectId lastModUserId;
+    
     private Date lastModifiedAt;
+    
     //have all his answers in hand, 
-    //avoid to do more query via retrieve all answers and get test each qustionid;
+    //avoid doing more query via retrieve all answers and get test each qustionid;
     //自动得到属于它的所有answer,answer里面本身并不会有更多的reference，所以不会load很大一张图
     //Followers
-    private List<ObjectId> followerIds;
+    private List<ObjectId> followerIds = new ArrayList<ObjectId>();
+    
+    @Reference(lazy=true)
+    private List<Topic> topics = new ArrayList<Topic>();
     
     //这个Refercence自动找出所有的与之对应的答案，
     //因为常常查看某个问题的页面，并且罗列出所有回答
-    @Reference
+    //但是lazy=true必须用，因为其他情况可能需要很多Question的基本信息而不需要他的answert
+    @Reference(lazy=true)
     private List<Answer> answers = new ArrayList<Answer>();
     
     public Question() {
@@ -94,12 +101,12 @@ public class Question {
         this.authorId = authorId;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getLastModUserName() {
@@ -142,6 +149,15 @@ public class Question {
         this.followerIds = followerIds;
     }
     
+    
+    public List<Topic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
+    }
+
     public void save() {
         QuestionDAO dao = new QuestionDAO(DB.morphia, DB.mongo);
         dao.save(this);

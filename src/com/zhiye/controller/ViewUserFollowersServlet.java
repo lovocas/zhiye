@@ -51,6 +51,7 @@ public class ViewUserFollowersServlet extends HttpServlet {
         }
         System.out.println(followers.size() + "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
         req.setAttribute("followers", followers);
+        req.setAttribute("vieweduser", viewedUser);
         req.getRequestDispatcher("user-followers.jsp").forward(req, resp);
     }
 }

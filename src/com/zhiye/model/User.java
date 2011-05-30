@@ -12,21 +12,21 @@ import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.query.Query;
 import com.google.code.morphia.query.UpdateOperations;
 import com.zhiye.dao.QuestionDAO;
+import com.zhiye.dao.TopicDAO;
 import com.zhiye.dao.UserDAO;
 import com.zhiye.util.DB;
 
 /**
- * @author TeaInCoffee
- *  个人主页的动态信息：
- *  1.关注问题的新信息
- *  2.关注好友的新信息
- *  
- *  关注话题的新信息用于发现自己想回答的新信息
+ * @author TeaInCoffee 个人主页的动态信息： 1.关注问题的新信息 2.关注好友的新信息
+ * 
+ * 
+ *         关注话题的新信息用于发现自己想回答的新信息
  */
-@Entity(value="users")
-public class User {
+@Entity(value = "users")
+public class User implements Idable {
 
-    @Id private ObjectId id;
+    @Id
+    private ObjectId id;
     private String email;
     private String name;
     private String tagline;
@@ -37,18 +37,18 @@ public class User {
     private int askCount;
     private int answerCount;
 
+    // 提示：
+    // 被关注的问题 话题
+    private List<ObjectId> followedQuestionIds = new ArrayList<ObjectId>(); // 两边都存储
+    private List<ObjectId> followedTopicIds = new ArrayList<ObjectId>();// 两边都存储
 
-    //提示：
-    //关注的问题 话题 人的多对多关系
-    //
-    private List<ObjectId> followedQuestionIds = new ArrayList<ObjectId>(); //两边都存储
-    private List<ObjectId> followedTopicIds  = new ArrayList<ObjectId>();//两边都存储
-
-    private List<ObjectId> followingIds  = new ArrayList<ObjectId>();
-    private List<ObjectId> followerIds  = new ArrayList<ObjectId>();
-
-    //回答的问题 User <answer> Question 多对多的关系，同样两边都存储
-    private List<ObjectId> answeredQuestionIds  = new ArrayList<ObjectId>();
+    // SNS的follow关系双向都存储，利于查询，保存时同时更新两边
+    // 1。不采取@Reference是因为Morphia自动查询出引用的list,这样就会
+    // 从数据库中抽取出巨大的冗余数据
+    // 2。也可以用Reference lazy=true来解决上面的问题，
+    // 衡量下id和DBRef，我觉得还是存储id比较经济
+    private List<ObjectId> followingIds = new ArrayList<ObjectId>();
+    private List<ObjectId> followerIds = new ArrayList<ObjectId>();
 
     public ObjectId getId() {
         return id;
@@ -89,7 +89,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     public String getPassword() {
         return password;
@@ -163,16 +162,6 @@ public class User {
         this.followerIds = followerIds;
     }
 
-    public List<ObjectId> getAnsweredQuestionIds() {
-        return answeredQuestionIds;
-    }
-
-    public void setAnsweredQuestionIds(List<ObjectId> answeredQuestionIds) {
-        this.answeredQuestionIds = answeredQuestionIds;
-    }
-    //提出的问题的ID就不保存了， 到时候查询questions//毕竟需求时候少
-
-
     public Question ask(String title, String content) {
         Question question = new Question();
         question.setLastModifiedAt(new Date());
@@ -180,22 +169,22 @@ public class User {
         question.setBody(content);
         question.setAuthorId(this.getId());
         question.setLastModifiedAt(new Date());
-        question.setCreateAt(new Date());
+        question.setCreatedAt(new Date());
         question.setAuthorId(this.id);
         question.setAuthorName(this.name);
-        this.askCount ++;
+        this.askCount++; // 这是错误的用到update来更新
 
         QuestionDAO dao = new QuestionDAO(DB.morphia, DB.mongo);
         dao.save(question);
         System.out.println(question.getId() + "问题保存到数据库了，" + this.name + "问的");
         DB.ds.save(this);
 
-
         return question;
     }
 
+    // 关注某人
     public void followPerson(User user) {
-        if(!this.equals(user)&&!this.followingIds.contains(user.id) 
+        if (!this.equals(user) && !this.followingIds.contains(user.id)
                 && !user.followerIds.contains(this.id)) {
             this.followingIds.add(user.id);
             user.followerIds.add(this.id);
@@ -204,25 +193,28 @@ public class User {
             dao.save(user);
         }
     }
+
+    // 取消关注某人
     public void unFollowPerson(User user) {
         Datastore ds = DB.ds;
         this.followingIds.remove(user.id);
         user.followerIds.remove(this.id);
-        //UserDAO dao = new UserDAO(DB.morphia, DB.mongo);
+        // UserDAO dao = new UserDAO(DB.morphia, DB.mongo);
 
-        //更新自己的列表
-        System.out.println(this.id + "&&&&&%&&&&&&&&&&&&&&&&&");
-        Query<User> updateQuery = ds.createQuery(User.class).field("_id").equal(this.id);
-        UpdateOperations<User> ops = ds.createUpdateOperations(User.class).removeAll("followingIds", user.id);
+        // 更新自己的列表
+        Query<User> updateQuery = ds.createQuery(User.class).field("_id")
+                .equal(this.id);
+        UpdateOperations<User> ops = ds.createUpdateOperations(User.class)
+                .removeAll("followingIds", user.id);
 
-        //更新user的列表
-        Query<User> updateQuery2 = ds.createQuery(User.class).field("_id").equal(user.id);
-        UpdateOperations<User> ops2 = ds.createUpdateOperations(User.class).removeAll("followerIds", this.id);
+        // 更新user的列表
+        Query<User> updateQuery2 = ds.createQuery(User.class).field("_id")
+                .equal(user.id);
+        UpdateOperations<User> ops2 = ds.createUpdateOperations(User.class)
+                .removeAll("followerIds", this.id);
         ds.update(updateQuery, ops);
         ds.update(updateQuery2, ops2);
     }
-
-
 
     public void answer(Question question, String answerBody) {
         Answer answer = new Answer();
@@ -230,35 +222,112 @@ public class User {
         answer.setAuthorId(this.id);
         answer.setAuthorName(this.name);
 
-        answer.setQuestionId( question.getId());
+        answer.setQuestionId(question.getId());
         answer.setUpdateAt(new Date());
 
-        this.answerCount ++;
+        this.answerCount++;
         answer.save(); //
-        //回答一个问题默认关注这个问题
-        if(!followedQuestionIds.contains(question.getId())) {
-            this.followedQuestionIds.add(question.getId());
-            this.save();
-        }
+
         question.getAnswers().add(answer);
         question.save();
+        
+        // 回答一个问题默认关注这个问题
+        followQuestion(question);
     }
+
+    public void followTopic(Topic topic) {
+
+        if (!followedTopicIds.contains(topic.getId())) {
+            followedTopicIds.add(topic.getId());
+
+            List<ObjectId> tfs = topic.getFollowerIds();
+            if (!tfs.contains(this.id)) {
+                tfs.add(this.id);
+                TopicDAO tdao = new TopicDAO(DB.morphia, DB.mongo);
+                tdao.save(topic);
+            }
+            UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
+            udao.save(this);
+        }
+    }
+
+    public void unfollowTopic(Topic topic) {
+
+        this.followedTopicIds.remove(topic.getId());
+        topic.getFollowerIds().remove(this.getId());
+
+        UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
+        TopicDAO tdao = new TopicDAO(DB.morphia, DB.mongo);
+
+        Query<User> updateQuery = udao.createQuery().field("_id")
+                .equal(this.id);
+        UpdateOperations<User> ups = udao.createUpdateOperations().removeAll(
+                "followedTopicIds", topic.getId());
+
+        Query<Topic> updateQuery2 = tdao.createQuery().field("_id")
+                .equal(topic.getId());
+        UpdateOperations<Topic> ups2 = tdao.createUpdateOperations().removeAll(
+                "followerIds", this.id);
+
+        udao.update(updateQuery, ups);
+        tdao.update(updateQuery2, ups2);
+
+    }
+
+    public void followQuestion(Question ques) {
+        if (!followedQuestionIds.contains(ques.getId())) {
+            followedQuestionIds.add(ques.getId());
+
+            List<ObjectId> qfs = ques.getFollowerIds();
+            if (!qfs.contains(this.id)) {
+                qfs.add(this.id);
+                QuestionDAO qdao = new QuestionDAO(DB.morphia, DB.mongo);
+                qdao.save(ques);
+            }
+            UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
+            udao.save(this);
+
+        }
+    }
+
+    public void unfollowQuestion(Question ques) {
+
+        this.followedQuestionIds.remove(ques.getId());
+        ques.getFollowerIds().remove(this.id);
+
+        UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
+        QuestionDAO qdao = new QuestionDAO(DB.morphia, DB.mongo);
+
+        Query<User> updateQuery = udao.createQuery().field("_id")
+                .equal(this.id);
+        UpdateOperations<User> ups = udao.createUpdateOperations().removeAll(
+                "followedQuestionIds", ques.getId());
+
+        Query<Question> updateQuery2 = qdao.createQuery().field("_id")
+                .equal(ques.getId());
+        UpdateOperations<Question> ups2 = qdao.createUpdateOperations()
+                .removeAll("followerIds", this.id);
+
+        udao.update(updateQuery, ups);
+        qdao.update(updateQuery2, ups2);
+
+    }
+
     public void save() {
         UserDAO dao = new UserDAO(DB.morphia, DB.mongo);
         dao.save(this);
     }
 
-
     // 只比较两个user是不是有相同的ObjectId
     @Override
     public boolean equals(Object obj) {
-        if(obj == this) return true;
-        if(obj == null || !(obj instanceof User)) return false;
-        User otherUser = (User)obj;
+        if (obj == this) return true;
+        if (obj == null || !(obj instanceof User)) return false;
+        User otherUser = (User) obj;
         return this.id.equals(otherUser.id);
     }
 
-    //对objectId进行hash, 当然这对存在于数据库中并且已经分配好id的user才有意义
+    // 对objectId进行hash, 当然这对存在于数据库中并且已经分配好id的user才有意义
     @Override
     public int hashCode() {
         final int prime = 31;

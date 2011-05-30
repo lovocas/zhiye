@@ -45,6 +45,17 @@
     <servlet-name>ViewUserFollowersServlet</servlet-name>
     <servlet-class>com.zhiye.controller.ViewUserFollowersServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ViewUserFollowingsServlet</servlet-name>
+    <servlet-class>com.zhiye.controller.ViewUserFollowingsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserLogoutServlet</servlet-name>
+    <servlet-class>com.zhiye.controller.UserLogoutServlet</servlet-class>
+  </servlet>
+
+  
+
 
 
  
@@ -94,8 +105,16 @@
     <servlet-name>ViewUserFollowersServlet</servlet-name>
     <url-pattern>/viewuserfollowers</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewUserFollowingsServlet</servlet-name>
+    <url-pattern>/viewuserfollowings</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserLogoutServlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
  <welcome-file-list>
-  <welcome-file>index.jsp</welcome-file>
+  <welcome-file>viewallquestions</welcome-file>
  </welcome-file-list>
  <login-config>
   <auth-method>BASIC</auth-method>

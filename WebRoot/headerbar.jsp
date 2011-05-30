@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*,com.zhiye.model.*"
   pageEncoding="UTF-8"%>
 
-
 <div id="bra" style="background:grey">
   <ul>
     <%

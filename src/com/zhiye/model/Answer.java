@@ -17,7 +17,7 @@ import com.zhiye.util.DB;
  * 
  */
 @Entity(value="answers")
-public class Answer {
+public class Answer implements Idable {
     @Id private ObjectId id;
     
     private String body;

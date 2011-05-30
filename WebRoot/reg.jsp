@@ -12,14 +12,14 @@
 		<base href="<%=basePath%>">
 
 		<title>注册 知也</title>
-
-		<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+        <link rel="stylesheet" type="text/css" href="css/zhiye.css">
 
 	</head>
 
 	<body>
+        <jsp:include page="headerbarv2.jsp"></jsp:include><br>
+         <div id="container">
+            <div id="left_wrapper">
 		<form action="regist" method="post">
 		    名字：
 		    <input type="text" name="name"/><br>  
@@ -38,7 +38,10 @@
 			<input type="submit" value="提交">
 		</form>
     
+    
     <font color="#ff0000">请认真填写每一项</font>
+    </div>
+    </div>
 
 
 	</body>

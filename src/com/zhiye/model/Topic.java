@@ -6,18 +6,21 @@ import org.bson.types.ObjectId;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
 
 /**
  * @author TeaInCoffee
  * Question 和 Topic 是多对多的关系， 
  * 保存方式为每个Question存放一个Topic列表
  * 而Topic只存放questionCount。
- * 这样考虑是因为会不会通过巍话题查询问题的频率较低
+ * 这样考虑是因为会不会通过话题查询问题的频率较低
  * #TODO 需要再思考下
  */
 @Entity
-public class Topic {
+public class Topic implements Idable{
     @Id private ObjectId id;
+    
+    @Indexed(unique=true)
     private String name;
     private String summary;
     
@@ -53,7 +56,5 @@ public class Topic {
     public void setFollowerIds(List<ObjectId> followerIds) {
         this.followerIds = followerIds;
     }
-    
-    
     
 }
