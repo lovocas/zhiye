@@ -10,6 +10,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Reference;
 import com.zhiye.dao.QuestionDAO;
+import com.zhiye.model.Log.Action;
 import com.zhiye.util.DB;
 
 
@@ -165,4 +166,13 @@ public class Question implements Idable {
     //setter and getter
 
     //TODO:Follower
+    private void insertActionLog(Action action) {
+        QuestionLog qlog = new QuestionLog();
+        qlog.setTitle(this.title);
+        qlog.setTargetId(this.id);
+        qlog.setAction(action);
+        
+        if(action == Action.EDIT) {
+        }
+    }
 }

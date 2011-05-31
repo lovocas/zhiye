@@ -19,6 +19,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		注册成功
-        <br>去<a href="index.jsp">主页</a>
+        <br>去<a href="">主页</a>
 	</body>
 </html>

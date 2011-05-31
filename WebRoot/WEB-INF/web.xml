@@ -53,6 +53,16 @@
     <servlet-name>UserLogoutServlet</servlet-name>
     <servlet-class>com.zhiye.controller.UserLogoutServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>FollowQuestionServlet</servlet-name>
+    <servlet-class>com.zhiye.controller.FollowQuestionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UnFollowQuestionServlet</servlet-name>
+    <servlet-class>com.zhiye.controller.UnFollowQuestionServlet</servlet-class>
+  </servlet>
+
+
 
   
 
@@ -112,6 +122,14 @@
   <servlet-mapping>
     <servlet-name>UserLogoutServlet</servlet-name>
     <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FollowQuestionServlet</servlet-name>
+    <url-pattern>/followquestion</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UnFollowQuestionServlet</servlet-name>
+    <url-pattern>/unfollowquestion</url-pattern>
   </servlet-mapping>
  <welcome-file-list>
   <welcome-file>viewallquestions</welcome-file>

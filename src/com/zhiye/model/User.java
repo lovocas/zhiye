@@ -11,9 +11,11 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.query.Query;
 import com.google.code.morphia.query.UpdateOperations;
+import com.zhiye.dao.LogDAO;
 import com.zhiye.dao.QuestionDAO;
 import com.zhiye.dao.TopicDAO;
 import com.zhiye.dao.UserDAO;
+import com.zhiye.model.Log.Action;
 import com.zhiye.util.DB;
 
 /**
@@ -24,7 +26,6 @@ import com.zhiye.util.DB;
  */
 @Entity(value = "users")
 public class User implements Idable {
-
     @Id
     private ObjectId id;
     private String email;
@@ -176,9 +177,20 @@ public class User implements Idable {
 
         QuestionDAO dao = new QuestionDAO(DB.morphia, DB.mongo);
         dao.save(question);
+        
+        
         System.out.println(question.getId() + "问题保存到数据库了，" + this.name + "问的");
         DB.ds.save(this);
 
+        QuestionLog qlog = new QuestionLog();
+        qlog.setOwnerId(this.id);
+        qlog.setTitle(question.getTitle());
+        qlog.setQuestionId(question.getId());
+        qlog.setTargetId(question.getId());
+        qlog.setAction(Action.NEW);
+        LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+        ldao.save(qlog);
+        
         return question;
     }
 
@@ -191,6 +203,18 @@ public class User implements Idable {
             UserDAO dao = new UserDAO(DB.morphia, DB.mongo);
             dao.save(this);
             dao.save(user);
+            
+            
+            //log
+            
+            UserLog ulog = new UserLog();
+            ulog.setOwnerId(this.id);
+            ulog.setTitle(this.name);
+            ulog.setTargetId(user.id);
+            ulog.setAction(Action.FOLLOW_USER);
+            
+            LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+            ldao.save(ulog);
         }
     }
 
@@ -214,6 +238,20 @@ public class User implements Idable {
                 .removeAll("followerIds", this.id);
         ds.update(updateQuery, ops);
         ds.update(updateQuery2, ops2);
+        
+        
+        
+        //log
+        
+        UserLog ulog = new UserLog();
+        ulog.setOwnerId(this.id);
+        ulog.setTitle(this.name);
+        ulog.setTargetId(user.id);
+        ulog.setAction(Action.UNFOLLOW_USER);
+        
+        LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+        ldao.save(ulog);
+        
     }
 
     public void answer(Question question, String answerBody) {
@@ -231,6 +269,17 @@ public class User implements Idable {
         question.getAnswers().add(answer);
         question.save();
         
+        AnswerLog alog = new AnswerLog();
+        alog.setOwnerId(this.id);
+        alog.setTitle(answer.getBody());
+        alog.setAnswerId(answer.getId());
+        alog.setTargetId(answer.getId());
+        alog.setAction(Action.NEW);
+        alog.setTargetParentId(question.getId());
+        alog.setTargetParentTitle(question.getTitle());
+        
+        LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+        ldao.save(alog);
         // 回答一个问题默认关注这个问题
         followQuestion(question);
     }
@@ -248,6 +297,16 @@ public class User implements Idable {
             }
             UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
             udao.save(this);
+            
+            
+            UserLog ulog = new UserLog();
+            ulog.setOwnerId(this.id);
+            ulog.setTitle(this.name);
+            ulog.setTargetId(topic.getId());
+            ulog.setAction(Action.FOLLOW_TOPIC);
+            
+            LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+            ldao.save(ulog);
         }
     }
 
@@ -271,6 +330,16 @@ public class User implements Idable {
 
         udao.update(updateQuery, ups);
         tdao.update(updateQuery2, ups2);
+        
+        
+        UserLog ulog = new UserLog();
+        ulog.setOwnerId(this.id);
+        ulog.setTitle(this.name);
+        ulog.setTargetId(topic.getId());
+        ulog.setAction(Action.UNFOLLOW_TOPIC);
+        
+        LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+        ldao.save(ulog);
 
     }
 
@@ -286,6 +355,18 @@ public class User implements Idable {
             }
             UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
             udao.save(this);
+            
+            
+            //log
+            
+            UserLog ulog = new UserLog();
+            ulog.setOwnerId(this.id);
+            ulog.setTitle(this.name);
+            ulog.setTargetId(ques.getId());
+            ulog.setAction(Action.FOLLOW_ASK);
+            
+            LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+            ldao.save(ulog);
 
         }
     }
@@ -310,6 +391,15 @@ public class User implements Idable {
 
         udao.update(updateQuery, ups);
         qdao.update(updateQuery2, ups2);
+        
+        UserLog ulog = new UserLog();
+        ulog.setOwnerId(this.id);
+        ulog.setTitle(this.name);
+        ulog.setTargetId(ques.getId());
+        ulog.setAction(Action.UNFOLLOW_ASK);
+        
+        LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
+        ldao.save(ulog);
 
     }
 
