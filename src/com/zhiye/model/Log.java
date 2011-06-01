@@ -1,5 +1,7 @@
 package com.zhiye.model;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.annotations.Entity;
@@ -14,10 +16,13 @@ public abstract class Log {
     private String targetAttr;
     private ObjectId targetParentId;
     private String targetParentTitle;
-
+    private Date happenedAt;
     private ObjectId ownerId;// 一个动作总是人发出的
     private Action action;
-
+    
+    public Log() {
+        happenedAt = new Date();
+    }
     public String getTargetAttr() {
         return targetAttr;
     }
@@ -32,6 +37,14 @@ public abstract class Log {
 
     public void setAction(Action action) {
         this.action = action;
+    }
+
+    public Date getHappenedAt() {
+        return happenedAt;
+    }
+
+    public void setHappenedAt(Date happenedAt) {
+        this.happenedAt = happenedAt;
     }
 
     public ObjectId getOwnerId() {
@@ -85,5 +98,4 @@ public abstract class Log {
     public static enum Action {
         FOLLOW_ASK, UNFOLLOW_ASK, FOLLOW_TOPIC, UNFOLLOW_TOPIC, FOLLOW_USER, UNFOLLOW_USER, EDIT, NEW,
     }
-
 }

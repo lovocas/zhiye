@@ -19,18 +19,23 @@
 
     <base href="<%=basePath%>">
 
-    <title>My JSP 'questions.jsp' starting page</title>
+    <title><%=request.getAttribute("title") %> 知也</title>
 
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-	<link rel="stylesheet" type="text/css" href="css/zhiye.css">
+    <link rel="stylesheet" type="text/css" href="css/zhiye.css">
   </head>
 
   <body>
     <jsp:include page="headerbarv2.jsp"></jsp:include>
     <div id="container">
+      <div id="right">
+            <jsp:include page="right-bar.jsp"></jsp:include>
+        </div>  
       <div id="left_wrapper">
+        
+        
         <div id="asks" class="listing">
           <%
               for (Question q : questions) {
@@ -40,11 +45,10 @@
               <a href="viewquestion?qid=<%=q.getId()%>"><%=q.getTitle()%></a>
             </div>
             <div class="info">
-              <a href="viewuser?userid=<%=q.getAuthorId() %>" class="user"><%=q.getAuthorName()%></a>
-              提出的问题 •
+              <a href="viewuser?userid=<%=q.getAuthorId()%>"
+                class="user"><%=q.getAuthorName()%></a> 提出的问题 •
               <%=q.getAnswers().size()%>
               个答案 •<%=q.getCreatedAt().toLocaleString()%>
-              •
             </div>
             <div class="qbody">
               <%=q.getBody()%>
@@ -55,9 +59,10 @@
           %>
         </div>
       </div>
-      <div id="right">
-        <jsp:include page="rightbar.jsp"></jsp:include>
-      </div>
+      
+   
+      
+      
     </div>
 
   </body>

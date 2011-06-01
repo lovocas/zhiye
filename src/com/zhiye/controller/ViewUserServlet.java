@@ -34,7 +34,7 @@ public class ViewUserServlet extends HttpServlet {
             User  user = dao.get(id);
             if(null != user) {
                 LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
-                Query<Log> query = ldao.createQuery().field("ownerId").equal(user.getId());
+                Query<Log> query = ldao.createQuery().field("ownerId").equal(user.getId()).order("-happenedAt");
                 List<Log> logs = query.asList();
                 for(Log l : logs) {
                     System.out.println(l.getTitle());
@@ -52,5 +52,7 @@ public class ViewUserServlet extends HttpServlet {
             
 
     }
+    
+    
 
 }

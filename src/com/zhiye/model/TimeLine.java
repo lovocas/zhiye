@@ -15,7 +15,7 @@ import com.zhiye.util.DB;
  * @author TeaInCoffee
  * 每个人都有一个timeline
  */
-@Entity
+@Entity(value="timeline")
 public class TimeLine {
     @Id
     private ObjectId id;

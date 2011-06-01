@@ -2,16 +2,17 @@
 a:link,a:visited {
 	color: #19558D;
 }*/
-
 a {
-text-decoration: none;
-color: #19558D;
+	text-decoration: none;
+	color: #19558D;
 }
+
 body {
 	margin: 0;
 	padding: 0;
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", 'Microsoft Yahei', STHeiti !important;
-    font-size: 13px;
+	font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma,
+		"Hiragino Sans GB", 'Microsoft Yahei', STHeiti !important;
+	font-size: 13px;
 }
 
 div {
@@ -28,13 +29,30 @@ div {
 	width: 960px;
 	margin: 0 auto;
 	overflow: hidden;
-	height:40px;
+	height: 40px;
 }
 
 #right {
 	width: 210px;
 	float: right;
-	background-color: grey
+	_width: 190px;
+}
+
+#uquq {
+	
+}
+#right ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-indent: 20px;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #fff;
+    padding: 3px 18px;
+}
+
+#right ul li {
+    padding: 4px;
 }
 
 #container {
@@ -44,21 +62,12 @@ div {
 	text-align: left;
 }
 
-#right ul {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	font: bold 12px/22px Verdana, Arial, Helvetica, sans-serif;
-	text-indent: 20px;
-	letter-spacing: 1px;
-	border-bottom: 1px solid #fff;
-}
-
 #logo {
 	float: left;
 	margin: 2px 20px 0 0;
 	font-size: 30px;
 }
+
 #logo a {
 	color: #FFA500;
 	text-decoration: none;
@@ -72,7 +81,7 @@ div {
 	padding: 0 6px;
 	overflow: hidden;
 	margin: 2px 20px 0 0;
-	float:left;
+	float: left;
 }
 
 #header #add_ask input {
@@ -90,7 +99,6 @@ div {
 	font-size: 13px;
 	padding: 10px 10px;
 	text-align: center;
-	
 }
 
 #left_wrapper {
@@ -161,43 +169,42 @@ div {
 	font-size: 12px;
 	display: inline-block;
 	margin: 0;
-    padding: 0;
+	padding: 0;
 	text-decoration: none;
 }
 
-
-
-
 a.green_button {
-    -moz-border-bottom-colors: none;
-    -moz-border-image: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background: url("/images/green_button_bg.gif?1301366040") repeat-x scroll left bottom #DFF0B1;
-    border-color: #8CB332 #8CB332 #648517;
-    border-radius: 3px 3px 3px 3px;
-    border-style: solid;
-    border-width: 1px;
-    color: #406A24;
-    display: inline-block;
-    font-weight: bold;
-    line-height: 22px;
-    padding: 2px 10px 1px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 1px #D4ED95;
-    cursor: hand;
+	-moz-border-bottom-colors: none;
+	-moz-border-image: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background: url("/images/green_button_bg.gif?1301366040") repeat-x
+		scroll left bottom #DFF0B1;
+	border-color: #8CB332 #8CB332 #648517;
+	border-radius: 3px 3px 3px 3px;
+	border-style: solid;
+	border-width: 1px;
+	color: #406A24;
+	display: inline-block;
+	font-weight: bold;
+	line-height: 22px;
+	padding: 2px 10px 1px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0 1px #D4ED95;
+	cursor: hand;
 }
+
 a.flat_button {
-    background: none repeat scroll 0 0 #DDDDDD;
-    border: 1px solid #DDDDDD;
-    border-radius: 3px 3px 3px 3px;
-    color: #666666;
-    display: inline-block;
-    line-height: 22px;
-    padding: 2px 10px 1px;
-    text-align: center;
-    text-decoration: none;
-    cursor: hand;
+	background: none repeat scroll 0 0 #DDDDDD;
+	border: 1px solid #DDDDDD;
+	border-radius: 3px 3px 3px 3px;
+	color: #666666;
+	display: inline-block;
+	line-height: 22px;
+	padding: 2px 10px 1px;
+	text-align: center;
+	text-decoration: none;
+	cursor: hand;
 }
