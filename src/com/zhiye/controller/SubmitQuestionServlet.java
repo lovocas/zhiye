@@ -44,8 +44,8 @@ public class SubmitQuestionServlet extends HttpServlet {
         
         if(null != title &&title.length() > 10) {
             Question question = u.ask(StringUtil.iso2UTF(title), StringUtil.iso2UTF(content));
-            req.setAttribute("question", question);
-            req.getRequestDispatcher("question.jsp").forward(req, resp);
+            
+            resp.sendRedirect("viewquestion?qid=" + question.getId());
         }
     }
 }

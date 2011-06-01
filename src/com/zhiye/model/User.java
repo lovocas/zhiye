@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Reference;
 import com.google.code.morphia.query.Query;
 import com.google.code.morphia.query.UpdateOperations;
 import com.zhiye.dao.LogDAO;
@@ -19,7 +20,8 @@ import com.zhiye.model.Log.Action;
 import com.zhiye.util.DB;
 
 /**
- * @author TeaInCoffee 个人主页的动态信息： 1.关注问题的新信息 2.关注好友的新信息
+ * @author TeaInCoffee 
+ * 个人主页的动态信息： 1.关注问题的新信息 2.关注好友的新信息
  * 
  * 
  *         关注话题的新信息用于发现自己想回答的新信息
@@ -37,7 +39,8 @@ public class User implements Idable {
     private String password;
     private int askCount;
     private int answerCount;
-
+    @Reference
+    private TimeLine timeline;
     // 提示：
     // 被关注的问题 话题
     private List<ObjectId> followedQuestionIds = new ArrayList<ObjectId>(); // 两边都存储
@@ -50,6 +53,17 @@ public class User implements Idable {
     // 衡量下id和DBRef，我觉得还是存储id比较经济
     private List<ObjectId> followingIds = new ArrayList<ObjectId>();
     private List<ObjectId> followerIds = new ArrayList<ObjectId>();
+
+    
+    
+    
+    public TimeLine getTimeline() {
+        return timeline;
+    }
+
+    public void setTimeline(TimeLine timeline) {
+        this.timeline = timeline;
+    }
 
     public ObjectId getId() {
         return id;
@@ -204,7 +218,6 @@ public class User implements Idable {
             dao.save(this);
             dao.save(user);
             
-            
             //log
             
             UserLog ulog = new UserLog();
@@ -215,6 +228,7 @@ public class User implements Idable {
             
             LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
             ldao.save(ulog);
+            add2FollowersTimeLine(ulog);
         }
     }
 
@@ -356,7 +370,6 @@ public class User implements Idable {
             UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
             udao.save(this);
             
-            
             //log
             
             UserLog ulog = new UserLog();
@@ -367,6 +380,8 @@ public class User implements Idable {
             
             LogDAO ldao = new LogDAO(DB.morphia, DB.mongo);
             ldao.save(ulog);
+            
+            add2FollowersTimeLine(ulog);
 
         }
     }
@@ -425,5 +440,22 @@ public class User implements Idable {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
+    
+    private void add2FollowersTimeLine(Log log) {
+        UserDAO udao = new UserDAO(DB.morphia, DB.mongo);
+        List<ObjectId> theFollowerIds = this.followerIds;
+        for(ObjectId idd : theFollowerIds) {
+            User u = udao.get(idd);
+            TimeLine timeline = u.getTimeline();
+            if(null == timeline) {
+                timeline = new TimeLine();
+                timeline.save();
+                u.setTimeline(timeline);
+                u.save();
+            }
+            timeline.getLogs().add(log);
+            timeline.save();
+        }
 
+    }
 }
